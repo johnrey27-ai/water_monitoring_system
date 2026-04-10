@@ -105,7 +105,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                    <div class="mt-8 grid gap-4 sm:grid-cols-4">
                         <div class="rounded-3xl bg-white/10 p-5">
                             <p class="text-sm text-slate-300">Current temperature</p>
                             <p class="mt-3 text-3xl font-semibold">{{ temperature }}°C</p>
@@ -115,14 +115,12 @@
                             <p class="mt-3 text-3xl font-semibold">{{ ph }}</p>
                         </div>
                         <div class="rounded-3xl bg-white/10 p-5">
-                            <p class="text-sm text-slate-300">Water status</p>
-                            <span class="status-badge mt-3 inline-flex
-                                  {% if status == 'Safe' %}safe
-                                  {% elif status == 'Warning' %}warning
-                                  {% else %}danger
-                                  {% endif %}">
-                                {{ status }}
-                            </span>
+                            <p class="text-sm text-slate-300">Current turbidity</p>
+                            <p class="mt-3 text-3xl font-semibold">{{ turbidity }} NTU</p>
+                        </div>
+                        <div class="rounded-3xl bg-white/10 p-5">
+                            <p class="text-sm text-slate-300">Predicted DO</p>
+                            <p class="mt-3 text-3xl font-semibold">{{ predicted_do }} mg/L</p>
                         </div>
                     </div>
                 </div>
@@ -169,6 +167,8 @@
                             <tr>
                                 <th class="px-6 py-4 text-left font-semibold">Temperature</th>
                                 <th class="px-6 py-4 text-left font-semibold">pH</th>
+                                <th class="px-6 py-4 text-left font-semibold">Turbidity</th>
+                                <th class="px-6 py-4 text-left font-semibold">Predicted DO</th>
                                 <th class="px-6 py-4 text-left font-semibold">Status</th>
                             </tr>
                         </thead>
@@ -178,6 +178,8 @@
                                 <tr class="hover:bg-slate-50">
                                     <td class="px-6 py-4">{{ data.temperature }} °C</td>
                                     <td class="px-6 py-4">{{ data.ph }}</td>
+                                    <td class="px-6 py-4">{{ data.turbidity }} NTU</td>
+                                    <td class="px-6 py-4 font-semibold">{{ data.predicted_do }} mg/L</td>
                                     <td class="px-6 py-4">
                                         <span class="status-badge
                                             {% if data.status == 'Safe' %}safe
@@ -191,7 +193,7 @@
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="3" class="px-6 py-8 text-center text-slate-500">No records available.</td>
+                                    <td colspan="5" class="px-6 py-8 text-center text-slate-500">No records available.</td>
                                 </tr>
                             {% endif %}
                         </tbody>
