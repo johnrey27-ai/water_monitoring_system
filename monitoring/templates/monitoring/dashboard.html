@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Water Monitoring Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .safe { background: #dcfce7; color: #15803d; }
+        .warning { background: #fef9c3; color: #ca8a04; }
+        .danger { background: #fee2e2; color: #b91c1c; }
+
+        .sidebar {
+            width: 220px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="flex">
+
+    <!-- Sidebar -->
+    <div class="sidebar bg-blue-600 text-white min-h-screen p-5">
+        <h2 class="text-2xl font-bold mb-8">💧 Aquasense</h2>
+
+        <ul class="space-y-4">
+            <li class="hover:bg-blue-500 p-2 rounded">Dashboard</li>
+            <li class="hover:bg-blue-500 p-2 rounded">Records</li>
+            <li class="hover:bg-blue-500 p-2 rounded">Reports</li>
+            <li class="hover:bg-blue-500 p-2 rounded">Settings</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white p-6 rounded-2xl shadow mb-6">
+            <h1 class="text-3xl font-bold">💧 Dashboard</h1>
+            <p class="text-sm mt-1">Real-time water quality monitoring system</p>
+        </div>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Temp -->
+            <div class="bg-white p-6 rounded-2xl shadow card">
+                <h3 class="text-gray-500">Temperature</h3>
+                <p class="text-3xl font-bold mt-2">🌡️ {{ temperature }} °C</p>
+            </div>
+
+            <!-- PH -->
+            <div class="bg-white p-6 rounded-2xl shadow card">
+                <h3 class="text-gray-500">pH Level</h3>
+                <p class="text-3xl font-bold mt-2">⚗️ {{ ph }}</p>
+            </div>
+
+            <!-- Status -->
+            <div class="bg-white p-6 rounded-2xl shadow card">
+                <h3 class="text-gray-500">Water Status</h3>
+
+                <span class="status-badge
+                    {% if status == 'Safe' %}safe
+                    {% elif status == 'Warning' %}warning
+                    {% else %}danger
+                    {% endif %}">
+                    {{ status }}
+                </span>
+            </div>
+
+        </div>
+
+        <!-- Table -->
+        <div class="mt-8 bg-white p-6 rounded-2xl shadow">
+
+            <div class="flex justify-between mb-4">
+                <h2 class="text-xl font-semibold">📊 Recent Records</h2>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                    Export
+                </button>
+            </div>
+
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-600">
+                        <th class="p-3">Temperature</th>
+                        <th class="p-3">pH</th>
+                        <th class="p-3">Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for data in records %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="p-3">{{ data.temperature }} °C</td>
+                        <td class="p-3">{{ data.ph }}</td>
+
+                        <td class="p-3">
+                            <span class="status-badge
+                                {% if data.status == 'Safe' %}safe
+                                {% elif data.status == 'Warning' %}warning
+                                {% else %}danger
+                                {% endif %}">
+                                {{ data.status }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
